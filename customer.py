@@ -39,3 +39,23 @@ df['Marital_Status'] = df['Marital_Status'].replace({'Alone': 'Single', 'Absurd'
 df = pd.get_dummies(df, columns=['Education', 'Marital_Status'], drop_first=True)
 
 df.drop(columns=['Z_CostContact', 'Z_Revenue', 'ID', 'Year_Birth', 'Dt_Customer', 'Kidhome', 'Teenhome'], inplace=True)
+
+corr_matrix = df.corr()
+
+plt.figure(figsize=(18, 12))
+sns.heatmap(corr_matrix, annot=True, fmt=".2f", cmap="coolwarm", center=0, linewidths=0.5)
+plt.title("Korelasyon Matrisi Isı Haritası")
+plt.tight_layout()
+plt.show()
+
+high_corr = [col for col in corr_matrix.columns if any(abs(corr_matrix[col]) > 0.85) and col != 'Response']
+
+print("\n Yüksek Korelasyonlu Özellikler (|r| > 0.85):", high_corr)
+
+print("\n Response ile En Yüksek Korelasyonlar:")
+print(corr_matrix['Response'].sort_values(ascending=False).head(10))
+
+print("\n Response ile En Düşük Korelasyonlar:")
+print(corr_matrix['Response'].sort_values().head(10))
+
+print(f"\n Veri Seti Boyutu: {df.shape}")
