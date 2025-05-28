@@ -103,3 +103,45 @@ models = {
         "params": {}
     }
 }
+
+results = []
+
+plt.figure(figsize=(18, 5))
+ax1 = plt.subplot(131)
+
+for name, config in models.items():
+    grid = GridSearchCV(config["model"], config["params"], cv=5, scoring='f1', n_jobs=-1)
+    grid.fit(X_train_scaled, y_train_res)
+    best_model = grid.best_estimator_
+
+    y_pred = best_model.predict(X_test_scaled)
+    y_proba = best_model.predict_proba(X_test_scaled)[:, 1] if hasattr(best_model, "predict_proba") else np.zeros_like(y_pred)
+
+    cv_f1 = cross_val_score(best_model, X_train_scaled, y_train_res, cv=5, scoring='f1').mean()
+    cv_auc = cross_val_score(best_model, X_train_scaled, y_train_res, cv=5, scoring='roc_auc').mean()
+    cv_prc = cross_val_score(best_model, X_train_scaled, y_train_res, cv=5, scoring='average_precision').mean()
+
+    results.append({
+        "Model": name,
+        "Accuracy": round(accuracy_score(y_test, y_pred), 3),
+        "Precision": round(precision_score(y_test, y_pred), 3),
+        "Recall": round(recall_score(y_test, y_pred), 3),
+        "F1": round(f1_score(y_test, y_pred), 3),
+        "AUC-ROC": round(roc_auc_score(y_test, y_proba), 3) if y_proba.any() else None,
+        "PR AUC": round(average_precision_score(y_test, y_proba), 3) if y_proba.any() else None,
+        "MCC": round(matthews_corrcoef(y_test, y_pred), 3),
+        "CV F1": round(cv_f1, 3),
+        "CV AUC": round(cv_auc, 3),
+        "CV PRC": round(cv_prc, 3)
+    })
+
+    if y_proba.any():
+        RocCurveDisplay.from_estimator(best_model, X_test_scaled, y_test, ax=ax1, name=name)
+
+ax1.set_title("ROC Eğrileri")
+
+results_df = pd.DataFrame(results).sort_values(by="F1", ascending=False)
+print("\n Model Performansları:\n", results_df)
+
+best_model_name = results_df.iloc[0]["Model"]
+print(f"\n En İyi Model: {best_model_name}")
