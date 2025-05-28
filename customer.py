@@ -72,3 +72,7 @@ X_train_res, y_train_res = smote.fit_resample(X_train, y_train)
 
 print(f" Eğitim Seti (SMOTE sonrası): {X_train_res.shape}, Sınıf Dağılımı: {dict(pd.Series(y_train_res).value_counts())}")
 print(f" Test Seti: {X_test.shape}, Sınıf Dağılımı: {dict(pd.Series(y_test).value_counts())}")
+
+scaler = StandardScaler()
+X_train_scaled = scaler.fit_transform(X_train_res)
+X_test_scaled = scaler.transform(X_test)
