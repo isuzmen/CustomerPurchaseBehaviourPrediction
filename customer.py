@@ -145,3 +145,22 @@ print("\n Model Performansları:\n", results_df)
 
 best_model_name = results_df.iloc[0]["Model"]
 print(f"\n En İyi Model: {best_model_name}")
+
+if best_model_name == "Random Forest":
+    best_model = GridSearchCV(models[best_model_name]["model"], models[best_model_name]["params"], cv=5, scoring='f1', n_jobs=-1)
+    best_model.fit(X_train_scaled, y_train_res)
+    best_model = best_model.best_estimator_
+
+    plt.figure(figsize=(6, 4))
+    ConfusionMatrixDisplay.from_estimator(best_model, X_test_scaled, y_test)
+    plt.title(f"{best_model_name} Confusion Matrix")
+
+    feat_imp = pd.Series(best_model.feature_importances_, index=X.columns).sort_values(ascending=False).head(15)
+    print("\n En Önemli 15 Özellik:\n", feat_imp)
+
+    plt.figure(figsize=(8, 6))
+    sns.barplot(x=feat_imp.values, y=feat_imp.index)
+    plt.title(f"{best_model_name} Önemli Özellikler")
+    plt.tight_layout()
+
+plt.show()
