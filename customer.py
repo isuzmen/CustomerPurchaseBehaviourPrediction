@@ -76,3 +76,30 @@ print(f" Test Seti: {X_test.shape}, Sınıf Dağılımı: {dict(pd.Series(y_test
 scaler = StandardScaler()
 X_train_scaled = scaler.fit_transform(X_train_res)
 X_test_scaled = scaler.transform(X_test)
+
+models = {
+    "Lojistik Regresyon": {
+        "model": LogisticRegression(max_iter=1000),
+        "params": {'C': [0.01, 0.1, 1, 10], 'penalty': ['l1', 'l2'], 'solver': ['liblinear']}
+    },
+    "Random Forest": {
+        "model": RandomForestClassifier(),
+        "params": {'n_estimators': [100, 200], 'max_depth': [5, 10, None], 'min_samples_split': [2, 5]}
+    },
+    "SVM": {
+        "model": SVC(probability=True),
+        "params": {'C': [0.1, 1, 10], 'gamma': ['scale'], 'kernel': ['rbf', 'linear']}
+    },
+    "kNN": {
+        "model": KNeighborsClassifier(),
+        "params": {'n_neighbors': [3, 5, 7], 'weights': ['uniform', 'distance']}
+    },
+    "Decision Tree": {
+        "model": DecisionTreeClassifier(),
+        "params": {'max_depth': [5, 10, None], 'min_samples_split': [2, 5]}
+    },
+    "Naive Bayes": {
+        "model": GaussianNB(),
+        "params": {}
+    }
+}
