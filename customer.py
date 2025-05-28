@@ -59,3 +59,16 @@ print("\n Response ile En Düşük Korelasyonlar:")
 print(corr_matrix['Response'].sort_values().head(10))
 
 print(f"\n Veri Seti Boyutu: {df.shape}")
+
+X = df.drop('Response', axis=1)
+y = df['Response']
+
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, stratify=y, random_state=42)
+
+print(f"\n Eğitim Seti (orijinal): {X_train.shape}, Sınıf Dağılımı: {dict(pd.Series(y_train).value_counts())}")
+
+smote = SMOTE(random_state=42)
+X_train_res, y_train_res = smote.fit_resample(X_train, y_train)
+
+print(f" Eğitim Seti (SMOTE sonrası): {X_train_res.shape}, Sınıf Dağılımı: {dict(pd.Series(y_train_res).value_counts())}")
+print(f" Test Seti: {X_test.shape}, Sınıf Dağılımı: {dict(pd.Series(y_test).value_counts())}")
