@@ -157,3 +157,4 @@ Bu bilgiler, kampanya hedeflemede ve strateji oluşturmada pazarlama ekiplerine 
 
 ---
 
+Daha ayrıntılı bilgi dokümanda yer almaktadır.
