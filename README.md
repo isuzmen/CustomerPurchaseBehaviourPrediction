@@ -10,7 +10,35 @@ Veri seti pazarlama stratejilerinin kişiselleştirilmesine ve müşteri segment
 
 ### 📊 Veri Seti Özeti
 
-![Veri Seti Tablosu](./images/dataset_info.png)
+### 📊 Veri Seti Özeti
+
+| Sütun Adı             | Veri Tipi   | Açıklama                                                   |
+|-----------------------|-------------|-------------------------------------------------------------|
+| ID                    | Integer     | Müşteri benzersiz kimlik numarası                           |
+| Year_Birth            | Integer     | Doğum yılı                                                  |
+| Education             | Categorical | Eğitim durumu (Bachelor, Master, PhD, vs.)                  |
+| Marital_Status        | Categorical | Medeni durum (Evli, Bekar, vb.)                             |
+| Kidhome               | Integer     | Evdeki çocuk sayısı                                         |
+| Teenhome              | Integer     | Evdeki ergen çocuk sayısı                                   |
+| Income                | Float       | Yıllık gelir (eksik değerler mevcut)                        |
+| Dt_Customer           | Date        | Müşterinin kayıt tarihi                                     |
+| Recency               | Integer     | Son alışverişten sonra geçen gün sayısı                     |
+| MntWines              | Integer     | Yıllık şarap harcaması                                      |
+| MntFruits             | Integer     | Yıllık meyve harcaması                                      |
+| MntMeatProducts       | Integer     | Yıllık et ürünleri harcaması                                |
+| MntFishProducts       | Integer     | Yıllık balık ürünleri harcaması                             |
+| MntSweetProducts      | Integer     | Yıllık tatlı harcaması                                      |
+| MntGoldProds          | Integer     | Yıllık altın ürünleri harcaması                             |
+| NumWebPurchases       | Integer     | İnternet üzerinden yapılan alışveriş sayısı                 |
+| NumCatalogPurchases   | Integer     | Katalog üzerinden yapılan alışveriş sayısı                  |
+| NumStorePurchases     | Integer     | Mağaza üzerinden yapılan alışveriş sayısı                   |
+| NumWebVisitsMonth     | Integer     | Son bir ayda web sitesi ziyaret sayısı                      |
+| AcceptCmp1–5          | Binary      | İlk 5 kampanyaya katılım durumu (her biri ayrı sütun)       |
+| Complain              | Binary      | Son 2 yılda şikayet durumu                                  |
+| Z_CostContact         | Integer     | Pazarlama iletişimi maliyeti                                |
+| Z_Revenue             | Integer     | Şirkete sağladığı gelir düzeyi                              |
+| Response              | Binary      | Kampanya tepkisi (1 = olumlu, 0 = olumsuz)                  |
+
 
 ---
 
@@ -80,7 +108,7 @@ Aşağıdaki modeller eğitildi ve `GridSearchCV` + `5-Fold CV` ile optimize edi
 
 ### 📊 ROC Eğrileri
 
-![ROC Eğrileri](./images/roc_curves.png)
+![ROC Eğrileri](./images/customerroc.png)
 
 | Model            | Accuracy | Precision | Recall | F1  | ROC-AUC | PR AUC | MCC  |
 |------------------|----------|-----------|--------|-----|----------|--------|------|
@@ -108,7 +136,7 @@ Model negatif sınıfı iyi tahmin ediyor ancak bazı pozitif sınıflar kaçır
 
 ### 🌟 Feature Importance
 
-![Feature Importance](./images/customerönemlilik.png)
+![Feature Importance](./images/customerimportance.png)
 
 - En önemli değişkenler:
   - `Recency`
